@@ -1,0 +1,38 @@
+{
+  "globalShortcut": "Ctrl+Alt+C",
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "C:/Users/Micha/Documents",
+        "C:/Users/Micha/OneDrive/Desktop"
+      ]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "Test Server": {
+      "command": "C:\\Users\\Micha\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\uv.EXE",
+      "args": [
+        "run",
+        "--with",
+        "mcp[cli]",
+        "mcp",
+        "run",
+        "C:\\Michael\\AI\\mcp-servers\\server.py"
+      ]
+    },
+    "weather": {
+      "command": "python",
+      "args": [
+        "C:/Michael/AI/Prjs/local_agent/weather_server.py"
+      ]
+    }   
+  }
+}
