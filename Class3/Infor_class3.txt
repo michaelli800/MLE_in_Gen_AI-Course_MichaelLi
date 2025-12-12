@@ -1,0 +1,86 @@
+
+PyQt5 + ASR + simple bot.
+
+PyQt5 +  speech_recognition +Whisper + simple bot
+
+
+pip install pyqt5 speechrecognition pyaudio
+On Windows, pyaudio may need a wheel from here.
+On Linux: sudo apt install portaudio19-dev python3-pyaudio
+
+pip3 install trafilatura requests bs4 fitz pytesseract pillow surya-ocr faster-whisper openai-whisper datasketch
+
+
+pip3 install trafilatura requests bs4 fitz pytesseract pillow surya-ocr faster-whisper openai-whisper datasketch
+
+
+winget install ffmpeg
+
+cd C:\Michael\AI\Prjs\MLE_in_Gen_AI-Course_MichaelLi\Class3
+curl -X 'POST'   'http://127.0.0.1:8000/chat/'   -H 'accept: application/json'   -H 'Content-Type: multipart/form-data'   -F  'file=@sample-1.mp3;type=audio/mpeg'
+
+Running cells with 'Python 3.12.3' requires the ipykernel package.
+
+<a href='command:jupyter.createPythonEnvAndSelectController'>Create a Python Environment</a> with the required packages.
+
+Or install 'ipykernel' using the command: '/usr/bin/python3 -m pip install ipykernel -U --user --force-reinstall'
+
+1749.30s - pydevd: Sending message related to process being replaced timed-out after 5 seconds
+[sudo] password for icha:
+
+sudo visudo
+icha ALL=(ALL) NOPASSWD: /usr/bin/apt-get
+
+sudo visudo
+
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+Cell In[7], line 3
+      1 import sys
+      2 sys.path.append('third_party/Matcha-TTS')
+----> 3 from cosyvoice.cli.cosyvoice import CosyVoice, CosyVoice2
+      4 from cosyvoice.utils.file_utils import load_wav
+      5 import torchaudio
+
+ModuleNotFoundError: No module named 'cosyvoice'
+
+---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+Cell In[8], line 3
+      1 import sys
+      2 sys.path.append('third_party/Matcha-TTS')
+----> 3 from cosyvoice.cli.cosyvoice import CosyVoice, CosyVoice2
+      4 from cosyvoice.utils.file_utils import load_wav
+      5 import torchaudio
+
+ModuleNotFoundError: No module named 'cosyvoice.cli'
+
+https://github.com/FunAudioLLM/CosyVoice.git
+
+pip install git+https://github.com/FunAudioLLM/CosyVoice.git
+
+conda create -n cosyvoice -y python=3.12
+conda activate cosyvoice
+pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
+
+# If you encounter sox compatibility issues
+# ubuntu
+sudo apt-get install sox libsox-dev
+# centos
+sudo yum install sox sox-devel
+
+git clone --recursive https://github.com/FunAudioLLM/CosyVoice.git
+# If you failed to clone the submodule due to network failures, please run the following command until success
+cd CosyVoice
+git submodule update --init --recursive
+
+If you no longer need it:
+
+conda remove --name cosyvoice --all
+
+conda deactivate
+conda deactivate
+
+conda info --envs
+
