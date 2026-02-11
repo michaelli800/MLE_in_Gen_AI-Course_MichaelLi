@@ -98,8 +98,17 @@ def init_database():
     conn.commit()
     return conn
 
-db_conn = init_database()
+#db_conn = init_database()
 
+#  --- 1.1.1 Load existing data ---
+def load_existing_data():   
+    """Load existing documents and chunks from the database."""
+    dconn = sqlite3.connect('rag_index.db', check_same_thread=False)
+    
+    #return db_conn
+    return dconn
+
+db_conn = load_existing_data()
 # --- 1.2 Populate Database and Generate Embeddings ---
 
 def populate_database_and_index():
@@ -396,7 +405,7 @@ async def root():
     }
 
 # To run this:
-# uvicorn main_rag:app --reload
+# uvicorn search_rag:app --reload
 #
 # Example queries:
 # http://127.0.0.1:8000/search/faiss?q=machine%20learning&k=3
