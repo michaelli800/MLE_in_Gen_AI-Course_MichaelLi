@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AI Voice Assistant</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #f4f4f9; }
+        #status { margin: 20px; color: #555; }
+        button { padding: 15px 30px; font-size: 18px; cursor: pointer; border-radius: 50px; border: none; transition: 0.3s; }
+        .record { background-color: #ff4b2b; color: white; }
+        .stop { background-color: #333; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Voice Assistant</h1>
+    <div id="status">Click "Start Recording" to speak</div>
+    <button id="recordBtn" class="record">Start Recording</button>
+    <audio id="audioPlayer" controls style="display:none;"></audio>
+
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+        const recordBtn = document.getElementById('recordBtn');
+        const status = document.getElementById('status');
+        const audioPlayer = document.getElementById('audioPlayer');
+        recordBtn.onclick = async () => {
+            if (mediaRecorder && mediaRecorder.state === "recording") {
+                mediaRecorder.stop();
+                recordBtn.textContent = "Processing...";
+                recordBtn.className = "record";
+                status.textContent = "Thinking...";
+            } else {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
+                
+                mediaRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const formData = new FormData();
+                    formData.append('file', audioBlob, 'request.wav');
+
+                    try {
+                        const response = await fetch('http://localhost:8000/chat/', {
+                            method: 'POST',
+                            body: formData
+                        });
+
+                        if (!response.ok) throw new Error("Server error");
+
+                        // ASYNCHRONOUS IMPROVEMENT: Stream the response
+                        const reader = response.body.getReader();
+                        const mediaSource = new MediaSource();
+                        audioPlayer.src = URL.createObjectURL(mediaSource);
+                        audioPlayer.style.display = "block";
+
+                        mediaSource.addEventListener('sourceopen', async () => {
+                            const sourceBuffer = mediaSource.addSourceBuffer('audio/mpeg'); // Ensure this matches your FastAPI output type
+                            
+                            while (true) {
+                                const { done, value } = await reader.read();
+                                if (done) {
+                                    if (!sourceBuffer.updating) mediaSource.endOfStream();
+                                    break;
+                                }
+                                
+                                // Append chunks to the buffer as they arrive
+                                sourceBuffer.appendBuffer(value);
+                                
+                                // Auto-play as soon as the first chunk arrives
+                                if (audioPlayer.paused) {
+                                    audioPlayer.play().catch(e => console.error("Playback failed", e));
+                                }
+
+                                // Wait for buffer to clear before adding more to prevent crashes
+                                await new Promise(resolve => {
+                                    if (!sourceBuffer.updating) resolve();
+                                    else sourceBuffer.onupdateend = resolve;
+                                });
+                            }
+                        });
+
+                        status.textContent = "Speaking...";
+                    } catch (err) {
+                        console.error(err);
+                        status.textContent = "Error: Could not reach assistant.";
+                    } finally {
+                        recordBtn.textContent = "Start Recording";
+                    }
+                };
+
+                mediaRecorder.start();
+                recordBtn.textContent = "Stop Recording";
+                recordBtn.className = "stop";
+                status.textContent = "Listening...";
+            }
+        };
+    </script>
+</body>
+</html>
